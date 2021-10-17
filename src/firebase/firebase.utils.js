@@ -11,6 +11,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from 'firebase/auth'
 
 const config = {
@@ -56,6 +57,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
 export const onSnapshotFromFirestore = onSnapshot
 export const createUserFromAuth = createUserWithEmailAndPassword
+export const signInFromAuth = signInWithEmailAndPassword
 
 const provider = new GoogleAuthProvider()
 provider.setCustomParameters({ promt: 'select_account' })
