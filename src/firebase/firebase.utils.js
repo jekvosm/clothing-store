@@ -1,11 +1,15 @@
 import { initializeApp } from 'firebase/app'
+
 import {
   getFirestore,
   doc,
+  collection,
   getDoc,
   setDoc,
   onSnapshot,
+  writeBatch,
 } from 'firebase/firestore'
+
 import {
   getAuth,
   signInWithPopup,
@@ -48,11 +52,40 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         ...additionalData,
       })
     } catch (error) {
-      console.log('error creating user', error.massege)
+      console.log('error creating user', error.message)
     }
   }
 
   return usersRef
+}
+
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+  const collectionRef = collection(firestore, collectionKey)
+
+  const batch = writeBatch(firestore)
+  objectToAdd.forEach(obj => {
+    const newDocRef = doc(collectionRef)
+    batch.set(newDocRef, obj)
+  })
+
+  return await batch.commit()
+}
+
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data()
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    }
+  })
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection
+    return accumulator
+  }, {})
 }
 
 export const onSnapshotFromFirestore = onSnapshot

@@ -8,11 +8,8 @@ import {
   TitleContainer,
 } from './collection.styles'
 
-// import './collection.style.scss'
-
-const CollectionPage = ({ collection, match }) => {
+const CollectionPage = ({ collection }) => {
   const { title, items } = collection
-  console.log(match)
   return (
     <CollectionPageContainer>
       <TitleContainer>{title}</TitleContainer>
