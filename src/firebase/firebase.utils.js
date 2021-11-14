@@ -6,17 +6,10 @@ import {
   collection,
   getDoc,
   setDoc,
-  onSnapshot,
   writeBatch,
 } from 'firebase/firestore'
 
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
 const config = {
   apiKey: 'AIzaSyD-w0jTRlDt0Y5A0PLKT3G6rvf98Z5RmqA',
@@ -87,10 +80,6 @@ export const convertCollectionsSnapshotToMap = collections => {
     return accumulator
   }, {})
 }
-
-export const onSnapshotFromFirestore = onSnapshot
-export const createUserFromAuth = createUserWithEmailAndPassword
-export const signInFromAuth = signInWithEmailAndPassword
 
 const provider = new GoogleAuthProvider()
 provider.setCustomParameters({ promt: 'select_account' })

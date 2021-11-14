@@ -1,6 +1,6 @@
 import React from 'react'
+
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { setCurrentUser } from './redux/user/user.action'
 
 import Header from './components/header/header.component'
 
@@ -9,16 +9,13 @@ import ShopPage from './pages/shop/shop.component'
 import SignInAndSignUpPage from './pages/sing-in-and-sign-up/sing-in-and-sign-up.component'
 import CheckoutPage from './pages/checkout/checkout.component'
 
-import {
-  auth,
-  createUserProfileDocument,
-  onSnapshotFromFirestore,
-} from './firebase/firebase.utils'
-
 import { connect } from 'react-redux'
-
 import { createStructuredSelector } from 'reselect'
+import { setCurrentUser } from './redux/user/user.action'
 import { selectCurrentUser } from './redux/user/user.selectors'
+
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import { onSnapshot } from '@firebase/firestore'
 
 import './App.css'
 
@@ -32,7 +29,7 @@ class App extends React.Component {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth)
 
-        onSnapshotFromFirestore(userRef, snapShot => {
+        onSnapshot(userRef, snapShot => {
           setCurrentUser({
             id: snapShot.id,
             ...snapShot.data(),

@@ -1,13 +1,11 @@
 import React from 'react'
 
-import {
-  auth,
-  createUserFromAuth,
-  createUserProfileDocument,
-} from '../../firebase/firebase.utils'
-
 import CustomButton from '../custom-button/custom-button.component'
 import FormInput from '../form-input/form-input.component'
+
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
+import { createUserWithEmailAndPassword } from '@firebase/auth'
+
 import { SignUpContainer, SignUpTitle } from './sign-up.styles'
 
 class SignUp extends React.Component {
@@ -33,7 +31,11 @@ class SignUp extends React.Component {
     }
 
     try {
-      const { user } = await createUserFromAuth(auth, email, password)
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
       await createUserProfileDocument(user, { displayName })
       this.setState({
         displayName: '',

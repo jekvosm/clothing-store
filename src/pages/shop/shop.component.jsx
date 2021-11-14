@@ -5,7 +5,7 @@ import {
   firestore,
   convertCollectionsSnapshotToMap,
 } from '../../firebase/firebase.utils'
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 
 import { connect } from 'react-redux'
 import { updateCollections } from '../../redux/shop/shop.actions'
@@ -29,7 +29,7 @@ class ShopPage extends React.Component {
     const { updateCollections } = this.props
     const collectionRef = collection(firestore, 'collections')
 
-    this.unsubscribeFromSnapshot = onSnapshot(collectionRef, async snapshot => {
+    getDocs(collectionRef).then(snapshot => {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot)
       updateCollections(collectionsMap)
       this.setState({ loading: false })
