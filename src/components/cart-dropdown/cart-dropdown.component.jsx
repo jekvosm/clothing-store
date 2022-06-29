@@ -9,8 +9,14 @@ import {
   CartDropdownButton,
   EmptyMessageContainer,
 } from './cart-dropdown.styles'
+import { selectCartItems } from '../../redux/cart/cart.selectors'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-const CartDropdown = ({ cartItems, history, dispatch }) => {
+const CartDropdown = () => {
+  const dispatch = useDispatch()
+  const cartItems = useSelector(selectCartItems)
+  const history = useHistory()
   return (
     <CartDropdownBox>
       <CartItemsContainer>

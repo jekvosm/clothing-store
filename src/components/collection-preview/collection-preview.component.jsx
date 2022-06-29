@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { useRouteMatch, useHistory } from 'react-router'
 import CollectionItem from '../collection-item/collection-item.component'
 import {
   CollectionPreviewContainer,
@@ -7,7 +7,10 @@ import {
   TitleContainer,
 } from './collection-preview.styles'
 
-const CollectionPreview = ({ title, items, routeName, history, match }) => {
+const CollectionPreview = ({ title, items, routeName }) => {
+  const history = useHistory()
+  const match = useRouteMatch()
+
   return (
     <CollectionPreviewContainer>
       <TitleContainer
@@ -26,4 +29,4 @@ const CollectionPreview = ({ title, items, routeName, history, match }) => {
   )
 }
 
-export default withRouter(CollectionPreview)
+export default CollectionPreview

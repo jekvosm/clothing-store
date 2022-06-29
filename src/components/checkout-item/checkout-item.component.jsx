@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import {
   removeItem,
@@ -14,8 +14,11 @@ import {
   TextContainer,
 } from './checkout-item.styles'
 
-const CheckoutItem = ({ cartItem, clearItem, removeItem, addItem }) => {
+const CheckoutItem = ({ cartItem }) => {
   const { name, imageUrl, quantity, price } = cartItem
+
+  const dispatch = useDispatch()
+
   return (
     <CheckoutItemContainer>
       <ImageContainer>
@@ -23,22 +26,18 @@ const CheckoutItem = ({ cartItem, clearItem, removeItem, addItem }) => {
       </ImageContainer>
       <TextContainer>{name}</TextContainer>
       <QuantityContainer>
-        <div onClick={() => removeItem(cartItem)}>&#10094;</div>
+        <div onClick={() => dispatch(removeItem(cartItem))}>&#10094;</div>
         <span>{quantity}</span>
-        <div onClick={() => addItem(cartItem)}>&#10095;</div>
+        <div onClick={() => dispatch(addItem(cartItem))}>&#10095;</div>
       </QuantityContainer>
       <TextContainer>{price}</TextContainer>
-      <RemoveButtonContainer onClick={() => clearItem(cartItem)}>
+      <RemoveButtonContainer
+        onClick={() => dispatch(clearItemFromCart(cartItem))}
+      >
         &#10005;
       </RemoveButtonContainer>
     </CheckoutItemContainer>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  addItem: item => dispatch(addItem(item)),
-  removeItem: item => dispatch(removeItem(item)),
-  clearItem: item => dispatch(clearItemFromCart(item)),
-})
-
-export default connect(null, mapDispatchToProps)(CheckoutItem)
+export default CheckoutItem
